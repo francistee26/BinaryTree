@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinaryTree {
     private class BNode {
         private int value;
@@ -108,19 +110,129 @@ public class BinaryTree {
         traversePostOrder(root.rightChild);
         System.out.print(root.value + " ");
     }
-    public int height(){
+
+    public int height() {
         return height(root);
     }
 
-    private int height(BNode root){
-        if(root == null)
+    private int height(BNode root) {
+        if (root == null)
             return -1;
-        if(root.leftChild == null && root.rightChild == null)
+        if (isLeaf(root))
             return 0;
-        return 1 + Math.max(
-                height(root.leftChild), 
-                height(root.rightChild));
+        return 1 + Math.max(height(root.leftChild), height(root.rightChild));
 
+    }
+
+    public int minValueInTree() {
+        return minValueInTree(root);
+    }
+
+    private int minValueInTree(BNode root) {
+        if (root == null)
+            throw new IllegalStateException("Empty Binary Tree");
+        if (isLeaf(root))
+            return root.value;
+        var left = minValueInTree(root.leftChild);
+        var right = minValueInTree(root.rightChild);
+        var minOfLeftAndRight = Math.min(left, right);
+
+        return Math.min(minOfLeftAndRight, root.value);
+    }
+
+    public int minValueInBinarySearchTree() {
+        return minValueInBinarySearchTree(root);
+    }
+
+    public int minValueInBinarySearchTree(BNode root) {
+        if (root == null)
+            throw new IllegalStateException();
+        var current = root;
+        var last = current;
+        while (current != null) {
+            last = current;
+            current = current.leftChild;
+        }
+        return last.value;
+    }
+
+    private boolean isLeaf(BNode root) {
+        return root.leftChild == null && root.rightChild == null;
+    }
+
+    public boolean equal(BinaryTree other) {
+        if (other == null)
+            return false;
+        return equals(root, other.root);
+
+    }
+
+    private boolean equals(BNode root1, BNode root2) {
+        if (root1 == null && root2 == null)
+            return true;
+        if (root1 != null && root2 != null) {
+            return root1.value == root2.value && equals(root1.leftChild, root2.leftChild)
+                    && equals(root1.rightChild, root2.rightChild);
+        }
+
+        return false;
+    }
+
+    public boolean validatingBST() {
+        return validatingBST(root);
+    }
+
+    private boolean validatingBST(BNode root) {
+        if (root == null) {
+            return true;
+        }
+        if (isLeaf(root))
+            return true;
+        return root.value >= root.leftChild.value && root.value <= root.rightChild.value
+                && validatingBST(root.leftChild) && validatingBST(root.rightChild);
+
+    }
+
+    public boolean isBinarySearchTree() {
+        return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBinarySearchTree(BNode root, int min, int max) {
+        if (root == null) {
+            return true;
+        }
+        if (root.value < min || root.value > max)
+            return false;
+        return isBinarySearchTree(root.leftChild, min, root.value - 1)
+                && isBinarySearchTree(root.rightChild, root.value + 1, max);
+    }
+
+    public void swapRoot() {
+        swapRoot(root);
+    }
+
+    private void swapRoot(BNode root) {
+        var temp = root.leftChild;
+        root.leftChild = root.rightChild;
+        root.rightChild = temp;
+
+    }
+
+    public void getNOdesAtDistance(int k) {
+        var list = new ArrayList<Integer>();
+        getNOdesAtDistance(root, k, list);
+        System.out.println(list.toString());
+    }
+
+    private void getNOdesAtDistance(BNode root, int distance, ArrayList<Integer> list) {
+        if (root == null)
+            return;
+        if (distance == 0) {
+            list.add(root.value);
+            return;
+        }
+        getNOdesAtDistance(root.leftChild, distance - 1, list);
+        getNOdesAtDistance(root.rightChild, distance - 1, list);
     }
 
 }

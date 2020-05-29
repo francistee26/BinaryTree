@@ -1,3 +1,5 @@
 {
-    "editor.fontFamily": "Consolas, 'Fira Code', monospace"
+    "editor.fontFamily": "Consolas, 'Fira Code', monospace",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 0
 }
