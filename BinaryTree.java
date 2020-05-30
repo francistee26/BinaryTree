@@ -19,6 +19,7 @@ public class BinaryTree {
     }
 
     private BNode root;
+    private int size;
 
     // public BinaryTree(int value) {
     // this.root = new BNode(value);
@@ -32,6 +33,7 @@ public class BinaryTree {
         var node = new BNode(value);
         if (root == null) {
             root = node;
+            size++;
             return;
         }
         var current = root;
@@ -39,18 +41,40 @@ public class BinaryTree {
             if (value < current.value) {
                 if (current.leftChild == null) {
                     current.leftChild = node;
+                    size++;
                     return;
                 }
                 current = current.leftChild;
             } else {
                 if (current.rightChild == null) {
                     current.rightChild = node;
+                    size++;
                     return;
                 }
                 current = current.rightChild;
             }
         }
 
+    }
+
+    public int size(){
+        return size;
+    }
+
+    public int countLeaves(){
+        return  countLeaves(root);
+    }
+    private int count;
+    private int countLeaves(BNode root){
+        if(root == null)
+            return 0;
+        
+        if(isLeaf(root))
+            count++;
+            
+        countLeaves(root.leftChild);
+        countLeaves(root.rightChild);
+        return count;
     }
 
     public boolean find(int value) {
@@ -218,10 +242,10 @@ public class BinaryTree {
 
     }
 
-    public void getNOdesAtDistance(int k) {
+    public String getNOdesAtDistance(int k) {
         var list = new ArrayList<Integer>();
         getNOdesAtDistance(root, k, list);
-        System.out.println(list.toString());
+        return list.toString();
     }
 
     private void getNOdesAtDistance(BNode root, int distance, ArrayList<Integer> list) {
@@ -233,6 +257,14 @@ public class BinaryTree {
         }
         getNOdesAtDistance(root.leftChild, distance - 1, list);
         getNOdesAtDistance(root.rightChild, distance - 1, list);
+    }
+
+    public void traverseLevelOrder(){
+        for(var i = 0; i<=height(); i++){
+            for(var value : getNOdesAtDistance(i).toCharArray())
+                System.out.print(value);
+            System.out.println();
+        }
     }
 
 }

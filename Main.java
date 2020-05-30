@@ -8,11 +8,13 @@ public class Main {
         bt.insert(6);
         bt.insert(8);
         bt.insert(10);
+        System.out.println(bt.countLeaves());
         // bt.swapRoot();
         // System.out.println(bt.minValueInTree());
         // System.out.println(bt.minValueInBinarySearchTree());
 
-        bt.getNOdesAtDistance(1);
+        // bt.getNOdesAtDistance(1);
+        bt.traverseLevelOrder();
         // System.out.println(bt.isBinarySearchTree());
         // System.out.println(bt.validatingBST());
         // System.out.println("Done");
