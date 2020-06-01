@@ -57,24 +57,79 @@ public class BinaryTree {
 
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public int countLeaves(){
-        return  countLeaves(root);
+    public int countLeaves() {
+        return countLeaves(root);
     }
-    private int count;
-    private int countLeaves(BNode root){
-        if(root == null)
+
+    private int countLeaves(BNode root) {
+        if (root == null)
             return 0;
-        
-        if(isLeaf(root))
-            count++;
-            
-        countLeaves(root.leftChild);
-        countLeaves(root.rightChild);
-        return count;
+
+        if (isLeaf(root))
+            return 1;
+
+        return countLeaves(root.leftChild) + countLeaves(root.rightChild);
+
+    }
+
+    public int maxOfBinaryTree() {
+        if (root == null)
+            throw new IllegalStateException();
+        return maxOfBinaryTree(root);
+    }
+
+    // O(n)
+    private int maxOfBinaryTree(BNode root) {
+        var left = maxOfBinaryTree(root.leftChild);
+        var right = maxOfBinaryTree(root.rightChild);
+        var maxOfLeftAndRight = Math.max(left, right);
+        return Math.max(maxOfLeftAndRight, root.value);
+    }
+
+    // log(n)
+    public int maxOfBinarySearchTree() {
+        if (root == null)
+            throw new IllegalStateException();
+        return maxOfBinarySearchTree(root);
+    }
+
+    private int maxOfBinarySearchTree(BNode root) {
+        if (root.rightChild == null)
+            return root.value;
+        return maxOfBinarySearchTree(root.rightChild);
+    }
+
+    public boolean contains(int value) {
+        return contains(root, value);
+    }
+
+    private boolean contains(BNode root, int value) {
+        if (root == null)
+            return false;
+
+        return root.value == value || contains(root.leftChild, value) || contains(root.rightChild, value);
+    }
+
+    public boolean areSibling(int value1, int value2) {
+        return areSibling(root, value1, value2);
+    }
+
+    private boolean areSibling(BNode root, int value1, int value2) {
+        if (root == null)
+            return false;
+
+        var aresibling = false;
+        if (root.leftChild != null && root.rightChild != null) {
+            var left = root.leftChild.value;
+            var right = root.rightChild.value;
+            aresibling = ((left == value1 && right == value2) || (left == value2 && right == value1));
+        }
+
+        return aresibling || areSibling(root.leftChild, value1, value2) || areSibling(root.rightChild, value1, value2);
     }
 
     public boolean find(int value) {
@@ -259,9 +314,9 @@ public class BinaryTree {
         getNOdesAtDistance(root.rightChild, distance - 1, list);
     }
 
-    public void traverseLevelOrder(){
-        for(var i = 0; i<=height(); i++){
-            for(var value : getNOdesAtDistance(i).toCharArray())
+    public void traverseLevelOrder() {
+        for (var i = 0; i <= height(); i++) {
+            for (var value : getNOdesAtDistance(i).toCharArray())
                 System.out.print(value);
             System.out.println();
         }
