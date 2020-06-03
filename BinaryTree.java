@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class BinaryTree {
     private class BNode {
@@ -131,6 +132,44 @@ public class BinaryTree {
 
         return aresibling || areSibling(root.leftChild, value1, value2) || areSibling(root.rightChild, value1, value2);
     }
+
+    public List<Integer> getAncestors(int value) {
+        var list = new ArrayList<Integer>();
+        getAncestors(root, value, list);
+        return list;
+    }
+
+    private boolean getAncestors(BNode root, int value, List<Integer> list) {
+        if (root == null)
+            return false;
+        if (root.value == value)
+            return true;
+        if (getAncestors(root.leftChild, value, list) || getAncestors(root.rightChild, value, list)) {
+            list.add(root.value);
+            return true;
+        }
+        return false;
+    }
+
+    // private List<Integer> getAncestors(BNode root, int value, List<Integer> list)
+    // {
+    // isAncestor(root, value, list);
+
+    // return list;
+    // }
+
+    // private boolean isAncestor(BNode root, int target, List<Integer> list) {
+    // if (root == null)
+    // return false;
+    // if (root.value == target)
+    // return true;
+    // if (isAncestor(root.leftChild, target, list) || isAncestor(root.rightChild,
+    // target, list)) {
+    // list.add(root.value);
+    // return true;
+    // }
+    // return false;
+    // }
 
     public boolean find(int value) {
         var current = root;
