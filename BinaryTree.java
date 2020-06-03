@@ -133,6 +133,29 @@ public class BinaryTree {
         return aresibling || areSibling(root.leftChild, value1, value2) || areSibling(root.rightChild, value1, value2);
     }
 
+    public int depth(int value) {
+        return depth(root, value);
+    }
+
+    private int depth(BNode root, int value) {
+        int count = 0;
+        var current = root;
+        while (current != null) {
+            if (value < current.value) {
+                count++;
+                current = current.leftChild;
+            } else if (value > current.value) {
+                count++;
+                current = current.rightChild;
+            } else {
+                return count;
+            }
+
+        }
+        return -1;
+
+    }
+
     public List<Integer> getAncestors(int value) {
         var list = new ArrayList<Integer>();
         getAncestors(root, value, list);

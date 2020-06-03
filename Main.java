@@ -8,7 +8,7 @@ public class Main {
         bt.insert(6);
         bt.insert(8);
         bt.insert(10);
-        System.out.println(bt.getAncestors(9));
+        System.out.println(bt.depth(10));
 
         // System.out.println(bt.maxOfBinarySearchTree());
         // System.out.println(bt.maxOfBinaryTree());
